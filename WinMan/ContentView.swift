@@ -6,14 +6,19 @@
 //
 
 import SwiftUI
+import KeyboardShortcuts
 
 struct ContentView: View {
+    @State private var showPermissionsAlert = true
+    let windowManager = WindowManager()
+    
     var body: some View {
         VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
             Text("Hello, world!").font(.title)
+            
+            Form {
+                KeyboardShortcuts.Recorder("Window Title", name: .windowTitle)
+            }
         }
         .padding()
     }

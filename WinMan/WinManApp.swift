@@ -7,13 +7,14 @@
 
 import SwiftUI
 import Cocoa
+import KeyboardShortcuts
 
 @main
 struct WinManApp: App {
 
     init() {
         requestAccessibilityPermissions()
-        let windowManager = WindowManager()
+        setUpShortcutEvents()
     }
 
     var body: some Scene {

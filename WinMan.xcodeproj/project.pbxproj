@@ -10,6 +10,7 @@
 		80942DBE2B967B93001C0D29 /* AccessPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80942DBD2B967B93001C0D29 /* AccessPermission.swift */; };
 		80942DC02B967E64001C0D29 /* WindowManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80942DBF2B967E64001C0D29 /* WindowManager.swift */; };
 		80942DC32B96C206001C0D29 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = 80942DC22B96C206001C0D29 /* KeyboardShortcuts */; };
+		80942DC52B96C86D001C0D29 /* ShortcutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80942DC42B96C86D001C0D29 /* ShortcutManager.swift */; };
 		80E12AD52B95B6E700AA392F /* WinManApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E12AD42B95B6E700AA392F /* WinManApp.swift */; };
 		80E12AD72B95B6E700AA392F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E12AD62B95B6E700AA392F /* ContentView.swift */; };
 		80E12AD92B95B6E700AA392F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80E12AD82B95B6E700AA392F /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 /* Begin PBXFileReference section */
 		80942DBD2B967B93001C0D29 /* AccessPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessPermission.swift; sourceTree = "<group>"; };
 		80942DBF2B967E64001C0D29 /* WindowManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowManager.swift; sourceTree = "<group>"; };
+		80942DC42B96C86D001C0D29 /* ShortcutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutManager.swift; sourceTree = "<group>"; };
 		80E12AD12B95B6E700AA392F /* WinMan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WinMan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		80E12AD42B95B6E700AA392F /* WinManApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinManApp.swift; sourceTree = "<group>"; };
 		80E12AD62B95B6E700AA392F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				80E12AD42B95B6E700AA392F /* WinManApp.swift */,
 				80942DBF2B967E64001C0D29 /* WindowManager.swift */,
 				80942DBD2B967B93001C0D29 /* AccessPermission.swift */,
+				80942DC42B96C86D001C0D29 /* ShortcutManager.swift */,
 				80E12AD62B95B6E700AA392F /* ContentView.swift */,
 				80E12AD82B95B6E700AA392F /* Assets.xcassets */,
 				80E12ADD2B95B6E700AA392F /* WinMan.entitlements */,
@@ -277,6 +280,7 @@
 				80942DC02B967E64001C0D29 /* WindowManager.swift in Sources */,
 				80942DBE2B967B93001C0D29 /* AccessPermission.swift in Sources */,
 				80E12AD52B95B6E700AA392F /* WinManApp.swift in Sources */,
+				80942DC52B96C86D001C0D29 /* ShortcutManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
