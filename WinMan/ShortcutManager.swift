@@ -23,10 +23,10 @@ func setUpShortcutEvents() {
     }
     KeyboardShortcuts.onKeyUp(for: .moveWindowLeft) {
         print("Move Left")
-        WindowManager.moveWindowLeft()
+        WindowManager().moveWindowLeft()
     }
     KeyboardShortcuts.onKeyUp(for: .moveWindowRight) {
         print("Move Right")
-        WindowManager.moveWindowRight()
+        WindowManager().moveWindowRight()
     }
 }

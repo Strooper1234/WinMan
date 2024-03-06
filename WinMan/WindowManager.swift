@@ -11,71 +11,39 @@ import SwiftUI
 
 class WindowManager {
     
-    static func moveWindowLeft() {
-        guard let frontmostApp = NSWorkspace.shared.frontmostApplication else {
-            print("No frontmost application found.")
-            return
-        }
-        
-        let appRef = AXUIElementCreateApplication(frontmostApp.processIdentifier)
-        guard let windowRef = getFocusedWindowElement(from: appRef) else {
-            print("Failed to get focused window of the frontmost application.")
-            return
-        }
-        adjustWindowPosition(window: windowRef, xOffset: -100)
-    }
-    static func moveWindowRight() {
-        guard let frontmostApp = NSWorkspace.shared.frontmostApplication else {
-            print("No frontmost application found.")
-            return
-        }
-        
-        let appRef = AXUIElementCreateApplication(frontmostApp.processIdentifier)
-        guard let windowRef = getFocusedWindowElement(from: appRef) else {
-            print("Failed to get focused window of the frontmost application.")
-            return
-        }
-        var sizeRef: CFTypeRef?
-//        let value = windowRef.getValue(.size)
-        let sizeResult = AXUIElementCopyAttributeValue(windowRef, kAXSizeAttribute as CFString, &sizeRef)
-        guard sizeResult == .success, let sizeValue = sizeRef else {
-            print("Unable to get size")
-            return
-        }
-        print(sizeValue)
-        print(sizeValue.values)
-        
-        
-        adjustWindowPosition(window: windowRef, xOffset: 100)
-    }
     
-    private static func getFocusedWindowElement(from app: AXUIElement) -> AXUIElement? {
+    func frontmostWindow() -> Window? {
+        guard let frontmostApp = NSWorkspace.shared.frontmostApplication else {
+            return nil
+        }
+        let appRef = AXUIElementCreateApplication(frontmostApp.processIdentifier)
+        
         var value: AnyObject?
-        let result = AXUIElementCopyAttributeValue(app, kAXFocusedWindowAttribute as CFString, &value)
-        if result == .success, let windowElement = value as! AXUIElement? {
-           return windowElement
+        let result = AXUIElementCopyAttributeValue(appRef, kAXFocusedWindowAttribute as CFString, &value)
+        print(result)
+        if result == .success {
+            let windowElement = value as! AXUIElement
+            return Window(windowElement)
         } else {
-           return nil
+            return nil
         }
     }
     
-    private static func adjustWindowPosition(window: AXUIElement, xOffset: CGFloat) {
-        var positionRef: CFTypeRef?
-        let positionResult = AXUIElementCopyAttributeValue(window, kAXPositionAttribute as CFString, &positionRef)
-        
-        guard positionResult == .success, let positionValue = positionRef else {
-            print("Unable to get window position.")
+    func moveWindowLeft() {
+        guard let window = frontmostWindow() else {
+            print("Failed to get the frontmost window")
             return
         }
-        
-        var point = CGPoint()
-        if AXValueGetTypeID() == CFGetTypeID(positionValue),
-           AXValueGetValue(positionValue as! AXValue, .cgPoint, &point) {
-            point.x += xOffset
-            
-            if let newPositionValue = AXValueCreate(.cgPoint, &point) {
-                AXUIElementSetAttributeValue(window, kAXPositionAttribute as CFString, newPositionValue)
-            }
-        }
+        print(window)
+        window.setPosition(position: CGPoint(x: 0, y: 500))
     }
+    func moveWindowRight() {
+        guard let window = frontmostWindow(), let screenSize = NSScreen.main?.frame.size  else {
+            print("Failed to get the frontmost window")
+            return
+        }
+        let newX = screenSize.width - window.size.width
+        window.setPosition(position: CGPoint(x: newX, y: 400))
+    }
+    
 }
