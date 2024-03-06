@@ -17,7 +17,7 @@ struct ContentView: View {
             Text("Hello, world!").font(.title)
             
             Form {
-                KeyboardShortcuts.Recorder("Window Title", name: .windowTitle)
+                KeyboardShortcuts.Recorder("Toggle Tile Overlay", name: .toggleTileOverlay)
             }
         }
         .padding()
