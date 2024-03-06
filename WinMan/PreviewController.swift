@@ -39,7 +39,7 @@ class PreviewController {
         previewWindowController = NSWindowController(window: panel)
         
         NSAnimationContext.runAnimationGroup({ context in
-            context.duration = 0.5
+            context.duration = 1
             panel.animator().alphaValue = 1
         })
         
