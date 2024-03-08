@@ -69,12 +69,17 @@ class PreviewWindowManager: ObservableObject {
         return self.gridLocation.endRow == TileManager.shared.rows
     }
     
+    typealias AdjustmentClosure = (OperationMode) -> Void
+    
+//    var adjustment: [Direction: AdjustmentClosure]
+    
     lazy var adjustment = [
         Direction.left: self.adjustLeft,
         Direction.right: self.adjustRight,
         Direction.down: self.adjustDown,
         Direction.up: self.adjustUp
     ]
+    
     
     func start(_ window: Window?) {
 //        TODO: check if the window is already managed by the TileManager
@@ -85,8 +90,6 @@ class PreviewWindowManager: ObservableObject {
         
         
         PreviewWindowToggleController.shared.toggleOverlayOn()
-//        calcRowsColsNeeded(window)
-//        print(self.gridLocation.numCol, self.gridLocation.numCol)
     }
     
     func expand() {
@@ -158,23 +161,6 @@ class PreviewWindowManager: ObservableObject {
         self.state = .insideGrid
     }
     
-    func moveRight() {
-        if self.isTouchingRightEdge {return}
-        gridLocation.originCol += 1
-    }
-    func moveLeft() {
-        if self.isTouchingLeftEdge {return}
-        gridLocation.originCol -= 1
-    }
-    func moveDown() {
-        if self.isTouchingBottomEdge {return}
-        gridLocation.originRow += 1
-    }
-    func moveUp() {
-        if self.isTouchingTopEdge {return}
-        gridLocation.originRow -= 1
-    }
-    
     func calcRowsColsNeeded(_ window: Window) {
         self.gridLocation.numCol = Int(window.size.width) / TileManager.shared.cellWidth
         self.gridLocation.numRow = Int(window.size.height) / TileManager.shared.cellHeight
@@ -210,7 +196,6 @@ struct PreviewWindowView: View {
                 .fill(Color.black.opacity(0.4))
                 .frame(width: size.width, height: size.height)
                 .offset(x: pos.x, y: pos.y)
-//                .position(x: preRect.origin.x, y: preRect.origin.y)
         }
     }
 }

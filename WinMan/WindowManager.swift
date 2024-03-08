@@ -41,20 +41,11 @@ class WindowManager {
         case .insideGrid:
             PreviewWindowManager.shared.adjustGridLocation(direction: .left, mode: .move)
         }
-//        PreviewWindowManager.shared.insertLeft(window)
-//        TileManager.shared.insertWindowToLeft(window)
-//        window.setPosition(position: CGPoint(x: 0, y: 500))
     }
     static func moveWindowRight() {
-//        guard let window = frontmostWindow(), let screenSize = NSScreen.main?.frame.size  else {
-//            print("Failed to get the frontmost window")
-//            return
-//        }
         if PreviewWindowManager.shared.state == .insideGrid {
             PreviewWindowManager.shared.adjustGridLocation(direction: .right, mode: .move)
         }
-//        let newX = screenSize.width - window.size.width
-//        window.setPosition(position: CGPoint(x: newX, y: 400))
     }
     static func moveWindowDown() {
         if PreviewWindowManager.shared.state == .insideGrid {
