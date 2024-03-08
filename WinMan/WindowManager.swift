@@ -12,7 +12,7 @@ import SwiftUI
 class WindowManager {
     
     
-    func frontmostWindow() -> Window? {
+    static func frontmostWindow() -> Window? {
         guard let frontmostApp = NSWorkspace.shared.frontmostApplication else {
             return nil
         }
@@ -29,21 +29,42 @@ class WindowManager {
         }
     }
     
-    func moveWindowLeft() {
+    static func moveWindowLeft() {
         guard let window = frontmostWindow() else {
             print("Failed to get the frontmost window")
             return
         }
         print(window)
-        window.setPosition(position: CGPoint(x: 0, y: 500))
-    }
-    func moveWindowRight() {
-        guard let window = frontmostWindow(), let screenSize = NSScreen.main?.frame.size  else {
-            print("Failed to get the frontmost window")
-            return
+        switch PreviewWindowManager.shared.state {
+        case .outOfGrid:
+            PreviewWindowManager.shared.insertLeft(window)
+        case .insideGrid:
+            PreviewWindowManager.shared.moveLeft()
         }
-        let newX = screenSize.width - window.size.width
-        window.setPosition(position: CGPoint(x: newX, y: 400))
+//        PreviewWindowManager.shared.insertLeft(window)
+//        TileManager.shared.insertWindowToLeft(window)
+//        window.setPosition(position: CGPoint(x: 0, y: 500))
+    }
+    static func moveWindowRight() {
+//        guard let window = frontmostWindow(), let screenSize = NSScreen.main?.frame.size  else {
+//            print("Failed to get the frontmost window")
+//            return
+//        }
+        if PreviewWindowManager.shared.state == .insideGrid {
+            PreviewWindowManager.shared.moveRight()
+        }
+//        let newX = screenSize.width - window.size.width
+//        window.setPosition(position: CGPoint(x: newX, y: 400))
+    }
+    static func moveWindowDown() {
+        if PreviewWindowManager.shared.state == .insideGrid {
+            PreviewWindowManager.shared.moveDown()
+        }
+    }
+    static func moveWindowUp() {
+        if PreviewWindowManager.shared.state == .insideGrid {
+            PreviewWindowManager.shared.moveUp()
+        }
     }
     
 }
