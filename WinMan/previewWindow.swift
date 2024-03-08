@@ -32,6 +32,17 @@ struct GridLocation {
         return self.numRow > 0 || self.numCol > 0
     }
 }
+
+enum OperationMode {
+    case move
+    case expand
+    case shrink
+}
+
+enum Direction {
+    case left, right, up, down
+}
+
 enum PreviewState {
     case outOfGrid
     case insideGrid
@@ -57,6 +68,14 @@ class PreviewWindowManager: ObservableObject {
     var isTouchingBottomEdge: Bool {
         return self.gridLocation.endRow == TileManager.shared.rows
     }
+    
+    lazy var adjustment = [
+        Direction.left: self.adjustLeft,
+        Direction.right: self.adjustRight,
+        Direction.down: self.adjustDown,
+        Direction.up: self.adjustUp
+    ]
+    
     func start(_ window: Window?) {
 //        TODO: check if the window is already managed by the TileManager
         if let window = window {
@@ -68,6 +87,70 @@ class PreviewWindowManager: ObservableObject {
         PreviewWindowToggleController.shared.toggleOverlayOn()
 //        calcRowsColsNeeded(window)
 //        print(self.gridLocation.numCol, self.gridLocation.numCol)
+    }
+    
+    func expand() {
+        adjustGridLocation(direction: .left, mode: .expand)
+        adjustGridLocation(direction: .right, mode: .expand)
+        adjustGridLocation(direction: .down, mode: .expand)
+        adjustGridLocation(direction: .up, mode: .expand)
+    }
+    
+    func shrink() {
+        adjustGridLocation(direction: .left, mode: .shrink)
+        adjustGridLocation(direction: .right, mode: .shrink)
+        adjustGridLocation(direction: .down, mode: .shrink)
+        adjustGridLocation(direction: .up, mode: .shrink)
+    }
+    
+    func adjustGridLocation(direction: Direction, mode: OperationMode) {
+        if let adjustFunction = adjustment[direction] {
+            adjustFunction(mode)
+        }
+    }
+    
+    func adjustLeft(mode: OperationMode) {
+        switch mode {
+        case .move:
+            if !isTouchingLeftEdge { gridLocation.originCol -= 1 }
+        case .expand:
+            if !isTouchingLeftEdge { gridLocation.originCol -= 1; gridLocation.numCol += 1 }
+        case .shrink:
+            if gridLocation.numCol > 1 { gridLocation.numCol -= 1 }
+        }
+    }
+
+    func adjustRight(mode: OperationMode) {
+        switch mode {
+        case .move:
+            if !isTouchingRightEdge { gridLocation.originCol += 1 }
+        case .expand:
+            if !isTouchingRightEdge { gridLocation.numCol += 1 }
+        case .shrink:
+            if gridLocation.numCol > 1 { gridLocation.originCol += 1; gridLocation.numCol -= 1 }
+        }
+    }
+
+    func adjustUp(mode: OperationMode) {
+        switch mode {
+        case .move:
+            if !isTouchingTopEdge { gridLocation.originRow -= 1 }
+        case .expand:
+            if !isTouchingTopEdge { gridLocation.originRow -= 1; gridLocation.numRow += 1 }
+        case .shrink:
+            if gridLocation.numRow > 1 { gridLocation.numRow -= 1 }
+        }
+    }
+
+    func adjustDown(mode: OperationMode) {
+        switch mode {
+        case .move:
+            if !isTouchingBottomEdge { gridLocation.originRow += 1 }
+        case .expand:
+            if !isTouchingBottomEdge { gridLocation.numRow += 1 }
+        case .shrink:
+            if gridLocation.numRow > 1 { gridLocation.originRow += 1; gridLocation.numRow -= 1 }
+        }
     }
     
     func insertLeft(_ window: Window) {
