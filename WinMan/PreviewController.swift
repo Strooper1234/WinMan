@@ -58,19 +58,10 @@ class PreviewController {
         })
         self.isOpen = false
     }
-
-    // Optional: Function to switch screens, might need adjustment based on your use case
-//    func setScreen(to screen: NSScreen) {
-//        guard let _ = previewWindowController, screen != self.screen else {
-//            return
-//        }
-//        self.close()
-//        self.open(screen: screen)
-//    }
 }
 
-class PreviewToggleController: ObservableObject {
-    static let shared = PreviewToggleController()
+class PreviewGridController: ObservableObject {
+    static let shared = PreviewGridController()
     let previewController = PreviewController()
     
     func toggleOverlay() {
