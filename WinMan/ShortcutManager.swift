@@ -93,14 +93,14 @@ func handleKeyEvent(event: NSEvent, isActive: Bool) -> Bool{
     } else if isSuperShortcut {
         if event.type == .keyDown {
             print("hello")
-            handleArrowKeys(event: event)
+            handleKeys(event: event)
         }
         return true
     }
     return false
 }
 
-func handleArrowKeys(event: NSEvent) {
+func handleKeys(event: NSEvent) {
     print("==CHecking arrows")
     switch event.characters {
     case "j":
@@ -115,6 +115,12 @@ func handleArrowKeys(event: NSEvent) {
     case "i":
         print("move preview up")
         WindowManager.moveWindowUp()
+    case "=":
+        print("expand")
+        PreviewWindowManager.shared.expand()
+    case "-":
+        print("shrink")
+        PreviewWindowManager.shared.shrink()
     default:
         break
     }
