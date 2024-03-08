@@ -13,7 +13,7 @@ class PreviewController {
     private var screen: NSScreen = NSScreen.screens.first ?? NSScreen()
     var isOpen = false
     
-    func open(screen: NSScreen = NSScreen.main ?? NSScreen()) {
+    func open<V: View>(screen: NSScreen = NSScreen.main ?? NSScreen(), view: V) {
         if let windowController = previewWindowController {
             windowController.window?.orderFrontRegardless()
             return
@@ -28,7 +28,7 @@ class PreviewController {
         panel.hasShadow = false
         panel.backgroundColor = NSColor.clear
         panel.level = NSWindow.Level(NSWindow.Level.screenSaver.rawValue - 1)
-        panel.contentView = NSHostingView(rootView: GridView())
+        panel.contentView = NSHostingView(rootView: view)
         panel.collectionBehavior = .canJoinAllSpaces
         panel.alphaValue = 0
         panel.ignoresMouseEvents = true
@@ -60,13 +60,13 @@ class PreviewController {
     }
 
     // Optional: Function to switch screens, might need adjustment based on your use case
-    func setScreen(to screen: NSScreen) {
-        guard let _ = previewWindowController, screen != self.screen else {
-            return
-        }
-        self.close()
-        self.open(screen: screen)
-    }
+//    func setScreen(to screen: NSScreen) {
+//        guard let _ = previewWindowController, screen != self.screen else {
+//            return
+//        }
+//        self.close()
+//        self.open(screen: screen)
+//    }
 }
 
 class PreviewToggleController: ObservableObject {
@@ -77,7 +77,7 @@ class PreviewToggleController: ObservableObject {
         if previewController.isOpen {
             previewController.close()
         } else {
-            previewController.open(screen: NSScreen.main!)
+            previewController.open(screen: NSScreen.main!, view: GridView())
         }
 
     }
