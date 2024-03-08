@@ -12,6 +12,7 @@ import SwiftUI
 struct TileCell {
     var row: Int
     var col: Int
+    var window: Window?
 }
 
 class TileManager: ObservableObject {
@@ -24,6 +25,7 @@ class TileManager: ObservableObject {
     let cellHeight: Int
     
     var grid: [[TileCell]]
+    var trackedWindows: [Window] = []
     
     init() {
         guard let screen = NSScreen.main else {
@@ -67,24 +69,19 @@ struct GridView: View {
                     let padding: CGFloat = 20
                     let cellWidth = CGFloat(tileManager.cellWidth) - padding  // Convert to CGFloat
                     let cellHeight = CGFloat(tileManager.cellHeight) - padding // Convert to CGFloat
+                    let isWindow = cell.window != nil ? true : false
                     
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.mint.opacity(0.9), lineWidth: 3)
+                        .stroke(isWindow ? Color.red.opacity(0.9): Color.mint.opacity(0.9), lineWidth: 3)
                         .fill(Color.mint.opacity(0.1))
                         .frame(width: cellWidth, height: cellHeight)
                         .overlay(
-                            Text("\(cell.row), \(cell.col)")
+                            Text("\(cell.row), \(cell.col)\n\nWindow: \(String(isWindow))")
                                 .foregroundColor(.black)
                                 
                         )
                         .position(x: CGFloat(cell.col) * CGFloat(tileManager.cellWidth) + CGFloat(tileManager.cellWidth)/2,
                                   y: CGFloat(cell.row) * CGFloat(tileManager.cellHeight) + CGFloat(tileManager.cellHeight)/2)
-//                    Text("\(cell.row), \(cell.col)")
-//                        .frame(width: cellWidth, height: cellHeight)
-//                        .background(Color.gray.opacity(0.3))
-//                        .border(Color.black, width: 1)
-//                        .position(x: CGFloat(cell.col) * cellWidth + cellWidth / 2,
-//                                  y: CGFloat(cell.row) * cellHeight + cellHeight / 2)
                 }
             }
         }
