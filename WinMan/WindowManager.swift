@@ -39,7 +39,7 @@ class WindowManager {
         case .outOfGrid:
             PreviewWindowManager.shared.insertLeft(window)
         case .insideGrid:
-            PreviewWindowManager.shared.moveLeft()
+            PreviewWindowManager.shared.adjustGridLocation(direction: .left, mode: .move)
         }
 //        PreviewWindowManager.shared.insertLeft(window)
 //        TileManager.shared.insertWindowToLeft(window)
@@ -51,19 +51,19 @@ class WindowManager {
 //            return
 //        }
         if PreviewWindowManager.shared.state == .insideGrid {
-            PreviewWindowManager.shared.moveRight()
+            PreviewWindowManager.shared.adjustGridLocation(direction: .right, mode: .move)
         }
 //        let newX = screenSize.width - window.size.width
 //        window.setPosition(position: CGPoint(x: newX, y: 400))
     }
     static func moveWindowDown() {
         if PreviewWindowManager.shared.state == .insideGrid {
-            PreviewWindowManager.shared.moveDown()
+            PreviewWindowManager.shared.adjustGridLocation(direction: .down, mode: .move)
         }
     }
     static func moveWindowUp() {
         if PreviewWindowManager.shared.state == .insideGrid {
-            PreviewWindowManager.shared.moveUp()
+            PreviewWindowManager.shared.adjustGridLocation(direction: .up, mode: .move)
         }
     }
     
