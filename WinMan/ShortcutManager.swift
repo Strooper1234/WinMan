@@ -14,7 +14,7 @@ var eventMonitors = [Any]()
 var isModifiedFlagActive = false
 var isShortcutKeyActive = false
 //let modifiers: [NSEvent.ModifierFlags] = [.shift, .control, .command]
-let modifiers: NSEvent.ModifierFlags = .command //let shortcutKey: UInt16 = 0x0E // E
+let modifiers: NSEvent.ModifierFlags = .command
 let shortcutKey = "e"
 
 // gets call in the app init()
@@ -35,8 +35,6 @@ func setUpShortcutEvents() {
     let runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0)
     CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
     CGEvent.tapEnable(tap: eventTap, enable: true)
-    
-    
 }
 
 func handleEventTap(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, refcon: UnsafeMutableRawPointer?) -> Unmanaged<CGEvent>? {
@@ -55,8 +53,6 @@ func handleEventTap(proxy: CGEventTapProxy, type: CGEventType, event: CGEvent, r
 func handleFlagsChanged(event: NSEvent) -> Bool {
     // This function handles changes in the state of modifier keys
     let flags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
-//    let flags = event.getIntegerValueField(.keyboardEventKeycode)
-//    let command = 55
     print("Flags changed: \(flags)")
     
     if flags == modifiers {
@@ -121,17 +117,10 @@ func handleKeys(event: NSEvent) {
     case "-":
         print("shrink")
         PreviewWindowManager.shared.shrink()
+    case "g":
+        print("grid")
+        PreviewGridController.shared.toggleOverlay()
     default:
         break
     }
-}
-
-func deactivateSuperShortcut() {
-    isSuperShortcut = false
-    
-//    for monitor in eventMonitors {
-//        NSEvent.removeMonitor(monitor)
-//    }
-//    eventMonitors.removeAll()
-    print("deactivate super shortcut")
 }
