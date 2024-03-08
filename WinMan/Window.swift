@@ -16,7 +16,18 @@ class Window {
         self.windowElement = windowElement
     }
     
-    var position: CGPoint? {
+    var title: String {
+        var titleRef: CFTypeRef?
+        let result = AXUIElementCopyAttributeValue(self.windowElement, kAXTitleAttribute as CFString, &titleRef)
+        
+        guard result == .success, let titleValue = titleRef as? NSString else {
+            return "Unknown Title"
+        }
+        
+        return titleValue as String
+    }
+    
+    var position: CGPoint {
         var positionRef: CFTypeRef?
         let result = AXUIElementCopyAttributeValue(self.windowElement, kAXPositionAttribute as CFString, &positionRef)
         
@@ -26,6 +37,7 @@ class Window {
         
         var point = CGPoint()
         AXValueGetValue(positionValue as! AXValue, .cgPoint, &point)
+        print(point)
         return point
         
     }
